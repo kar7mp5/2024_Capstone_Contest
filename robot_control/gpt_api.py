@@ -8,7 +8,7 @@ import os
 
 def gpt_api(text):
     """gpt api
-    
+
     Args:
         text (str): input text.
         
