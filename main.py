@@ -21,10 +21,15 @@ def main():
         print("Listening...")
         response = recognize_speech_from_mic(recognizer, microphone)
 
+        # Get the text
         if response["transcription"] and MODEL_NAME in response["transcription"].lower():
             text_to_tts("로봇이 활성화되었습니다. 명령을 주십시오.")
             response = recognize_speech_from_mic(recognizer, microphone)
             print(response)
+
+        # Exit the program
+        if response["transcription"] and '종료' in response["transcription"].lower():
+            text_to_tts("프로그램을 종료합니다.")
             break
 
         if response["error"]:
