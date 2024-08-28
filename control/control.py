@@ -2,17 +2,19 @@ import RPi.GPIO as gpio
 import time
 
 
+
+
 class Controller:
     def __init__(self, bl_pin, fl_pin, br_pin, fr_pin):
         """Control the robot by raspberrypi5
-        
+
         This code is based on the following site.
         https://sharad-rawat.medium.com/interfacing-l298n-h-bridge-motor-driver-with-raspberry-pi-7fd5cb3fa8e3
 
         Caution!
-        It may not work if both the front and back pins are TRUE. 
+        It may not work if both the front and back pins are TRUE.
         That is, either one of them must be True or both must be False.
-        
+
         Args:
             bl_pin (int): back left pin;   if this pin is true, left motor would be to back.
             fl_pin (int): front left pin;  if this pin is true, left motor would be to front.
@@ -25,8 +27,8 @@ class Controller:
         self.fl_pin = fl_pin
         self.br_pin = br_pin
         self.fr_pin = fr_pin
-        
-    
+
+
     def reset_pin(self):
         """Reset pin setting to OUT"""
         gpio.setmode(gpio.BCM) # set the pin style BCM
@@ -92,5 +94,25 @@ class Controller:
         gpio.cleanup()
 
 
+
+
 if __name__=="__main__":
+    from pynput import keyboard
+
+    def on_press(key):
+        try:
+            print('Alphanumeric key pressed: {0} '.format(key.char))
+        except AttributeError:
+            print('Special key pressed: {0}'.format(key))
+
+    def on_release(key):
+        print('{0} released'.format(key))
+        if key == keyboard.Key.esc:
+            # Stop listener
+            return False
+
+    # Collect events until released
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        listener.join()
+
     controller = Controller(17, 22, 24, 23)
