@@ -1,5 +1,12 @@
+# Raspberry pi IO
 RPi.GPIO
-pynput # keyboard IO
 
+# keyboard IO
+pynput 
+
+# TTS
 PyAudio
 gTTS
+
+# ChatGPT API
+openai==0.28
