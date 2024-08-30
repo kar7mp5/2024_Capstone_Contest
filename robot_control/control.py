@@ -17,25 +17,27 @@ class Controller:
         That is, either one of them must be True or both must be False.
 
         Args:
-            bl_pin (int): back left pin;   if this pin is true, left motor would be to back.
-            fl_pin (int): front left pin;  if this pin is true, left motor would be to front.
-            br_pin (int): back right pin;  if this pin is true, right motor would be to back.
-            fr_pin (int): front right pin; if this pin is true, right motor would be to front.
+            _bl_pin (int): back left pin;   if this pin is true, left motor would be to back.
+            _fl_pin (int): front left pin;  if this pin is true, left motor would be to front.
+            _br_pin (int): back right pin;  if this pin is true, right motor would be to back.
+            _fr_pin (int): front right pin; if this pin is true, right motor would be to front.
         """
         # setup motor pins
-        self.bl_pin = bl_pin
-        self.fl_pin = fl_pin
-        self.br_pin = br_pin
-        self.fr_pin = fr_pin
+        self._bl_pin = bl_pin
+        self._fl_pin = fl_pin
+        self._br_pin = br_pin
+        self._fr_pin = fr_pin
+
+        self.reset_pin()
 
 
     def reset_pin(self):
         """Reset pin setting to OUT"""
         gpio.setmode(gpio.BCM) # set the pin style BCM
-        gpio.setup(self.bl_pin, gpio.OUT) # back left pin
-        gpio.setup(self.fl_pin, gpio.OUT) # front left pin
-        gpio.setup(self.fr_pin, gpio.OUT) # front right pin
-        gpio.setup(self.br_pin, gpio.OUT) # back right pin
+        gpio.setup(self._bl_pin, gpio.OUT) # back left pin
+        gpio.setup(self._fl_pin, gpio.OUT) # front left pin
+        gpio.setup(self._fr_pin, gpio.OUT) # front right pin
+        gpio.setup(self._br_pin, gpio.OUT) # back right pin
 
 
     def forward(self, sec):
@@ -44,10 +46,10 @@ class Controller:
         Args:
             sec (int): moving time.
         """
-        gpio.output(self.bl_pin, False)
-        gpio.output(self.fl_pin, True)
-        gpio.output(self.fr_pin, True)
-        gpio.output(self.br_pin, False)
+        gpio.output(self._bl_pin, False)
+        gpio.output(self._fl_pin, True)
+        gpio.output(self._fr_pin, True)
+        gpio.output(self._br_pin, False)
         time.sleep(sec)
         gpio.cleanup() 
         
@@ -58,10 +60,10 @@ class Controller:
         Args:
             sec (int): moving time.
         """
-        gpio.output(self.bl_pin, True)
-        gpio.output(self.fl_pin, False)
-        gpio.output(self.fr_pin, False)
-        gpio.output(self.br_pin, True)
+        gpio.output(self._bl_pin, True)
+        gpio.output(self._fl_pin, False)
+        gpio.output(self._fr_pin, False)
+        gpio.output(self._br_pin, True)
         time.sleep(sec)
         gpio.cleanup()
         
@@ -72,10 +74,10 @@ class Controller:
         Args:
             sec (int): moving time.
         """
-        gpio.output(self.bl_pin, True)
-        gpio.output(self.fl_pin, False)
-        gpio.output(self.fr_pin, True)
-        gpio.output(self.br_pin, False)
+        gpio.output(self._bl_pin, True)
+        gpio.output(self._fl_pin, False)
+        gpio.output(self._fr_pin, True)
+        gpio.output(self._br_pin, False)
         time.sleep(sec)
         gpio.cleanup()
         
@@ -86,9 +88,9 @@ class Controller:
         Args:
             sec (int): moving time.
         """
-        gpio.output(self.bl_pin, False)
-        gpio.output(self.fl_pin, True)
-        gpio.output(self.fr_pin, False)
-        gpio.output(self.br_pin, True)
+        gpio.output(self._bl_pin, False)
+        gpio.output(self._fl_pin, True)
+        gpio.output(self._fr_pin, False)
+        gpio.output(self._br_pin, True)
         time.sleep(sec)
         gpio.cleanup()

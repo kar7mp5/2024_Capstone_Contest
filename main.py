@@ -1,66 +1,59 @@
 # main.py
 from robot_control import Controller
-from robot_control import recognize_speech_from_mic, gpt_api
+from pynput import keyboard
 
 
-import speech_recognition as sr
+ctr = Controller(17, 22, 24, 23)
 
 
+def on_release(key):
+    '''Main keyboard event
+    
+    Args:
+        key (str): keyboard input.
+    
+    Returns:
+        bool: False is to end up the program.
+    '''
+    print(key)
 
+    if key == keyboard.Key.esc:
+        print('End up the program.')
+        return False
 
-MODEL_NAME: str = "시리"
-SEC: int = 2
+    if 'char' in dir(key):     #check if char method exists,
+        match key.char:
+            case 'a':
+                print('left')
+                ctr.left_turn(2)
+
+            case 'd':
+                print('right')
+                ctr.right_turn(2)
+
+            case 's':
+                print('back')
+                ctr.go_back(2)
+
+            case 'w':
+                print('front')
+                ctr.forward(2)
+
+            case _:
+                print('Error occurred!')
+
+        ctr.reset_pin()
 
 
 def main():
-    """Main function to activate voice model on specific wake word."""
-    recognizer = sr.Recognizer()
-    microphone = sr.Microphone()
-    
-    print("Adjusting the environment sound")
-    with microphone as source:
-        recognizer.adjust_for_ambient_noise(source, duration=5)
-    
+    print("Program is started...")
 
-    controller = Controller(17, 22, 24, 23)
 
-    while True:
-        print("Listening...")
-        response = recognize_speech_from_mic(recognizer, microphone)
+    # Collect events until released
+    with keyboard.Listener(on_release=on_release) as listener:
+        listener.join()
 
-        # Get the text
-        if response["transcription"] and MODEL_NAME in response["transcription"].lower():
-            response = recognize_speech_from_mic(recognizer, microphone)
-            
-            match gpt_api(response):
-                case 1:             # front
-                    controller.forward()                                        
-                    break
-                
-                case 2:             # back
-                    controller.go_back()
-                    break
-                
-                case 3:             # left
-                    controller.left_turn()
-                    break
-                
-                case 4:             # right
-                    controller.right_turn()
-                    break
-                
-                case 5:             # etc
-                    print("Unacceptable output!!")
-                    break
-            
-            print(response)
 
-        # Exit the program
-        if response["transcription"] and '종료' in response["transcription"].lower():
-            break
-
-        if response["error"]:
-            print("ERROR: {}".format(response["error"]))
 
 
 
