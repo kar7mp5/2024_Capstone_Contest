@@ -39,6 +39,10 @@ def on_release(key):
                 print('front')
                 ctr.forward(2)
 
+            case 'e':
+                print('stop')
+                ctr.reset_pin()
+
             case _:
                 print('Error occurred!')
 

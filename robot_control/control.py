@@ -38,9 +38,11 @@ class Controller:
         gpio.setup(self._fl_pin, gpio.OUT) # front left pin
         gpio.setup(self._fr_pin, gpio.OUT) # front right pin
         gpio.setup(self._br_pin, gpio.OUT) # back right pin
+        gpio.cleanup()
+        
 
 
-    def forward(self, sec):
+    def forward(self):
         """Go forward
         
         Args:
@@ -50,11 +52,9 @@ class Controller:
         gpio.output(self._fl_pin, True)
         gpio.output(self._fr_pin, True)
         gpio.output(self._br_pin, False)
-        time.sleep(sec)
-        gpio.cleanup() 
         
         
-    def go_back(self, sec):
+    def go_back(self):
         """Go back
         
         Args:
@@ -81,7 +81,7 @@ class Controller:
         time.sleep(sec)
         gpio.cleanup()
         
-        
+
     def right_turn(self, sec):
         """Turn right
         
@@ -93,4 +93,4 @@ class Controller:
         gpio.output(self._fr_pin, False)
         gpio.output(self._br_pin, True)
         time.sleep(sec)
-        gpio.cleanup()
+        gpio.cleanup()        
