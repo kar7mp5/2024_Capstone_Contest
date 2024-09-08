@@ -25,23 +25,23 @@ def on_release(key):
         match key.char:
             case 'a':
                 print('left')
-                ctr.left_turn(2)
+                ctr.left_turn()
 
             case 'd':
                 print('right')
-                ctr.right_turn(2)
+                ctr.right_turn()
 
             case 's':
                 print('back')
-                ctr.go_back(2)
+                ctr.go_back()
 
             case 'w':
                 print('front')
-                ctr.forward(2)
+                ctr.forward()
 
             case 'e':
                 print('stop')
-                ctr.reset_pin()
+                ctr.stop()
 
             case _:
                 print('Error occurred!')

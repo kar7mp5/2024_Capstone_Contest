@@ -1,24 +1,21 @@
-from pynput import keyboard
+import RPi.GPIO as GPIO
+import time
 
-def on_press(key):
-    try:
-        print('place 1')
-    except AttributeError:
-        print('place 2')
-        print('special key {0} pressed'.format(
-            key))
+#GPIO Basic initialization 
+GPIO.setmode(GPIO.BCM) 
+GPIO.setwarnings(False) 
 
-def on_release(key):
-    print('place 3')
-    print('{0} released'.format(
-        key))
-    if key == keyboard.Key.esc:
-        print('place 4')
-        # Stop listener
-        return False
+#LED configuration
+led = 17
+GPIO.setup(led, GPIO.OUT)
 
-# Collect events until released
-with keyboard.Listener(
-        on_press=on_press,
-        on_release=on_release) as listener:
-    listener.join()
+#Turn on the LED 
+print("LED on") 
+GPIO.output(led, GPIO.HIGH)
+
+#Wait 5s
+time.sleep(5) 
+
+#Turn off the LED 
+print("LED off") 
+GPIO.output(led, GPIO.LOW) 
